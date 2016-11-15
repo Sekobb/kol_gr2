@@ -21,3 +21,49 @@
 #
 #Delete these comments before commit!
 #Good luck.
+
+from Matrix import *
+
+def main():
+
+	matrix_1 = Matrix(4,5,6,7)
+	matrix_2 = Matrix(2,2,2,1)
+
+	matrix_3 = matrix_2.summ(matrix_1)
+	matrix_4 = matrix_2.diff(matrix_1)
+	matrix_5 = matrix_2.mult(matrix_1)
+
+	print matrix_3
+	print matrix_4
+	print matrix_5
+
+	matrix_6 = matrix_2 + matrix_1
+	matrix_7 = matrix_2 + 5
+	matrix_8 = 5 + matrix_2
+
+	print matrix_6
+	print matrix_7
+	print matrix_8
+
+	matrix_9 = matrix_2 - matrix_1
+	matrix_10 = matrix_2 - 4
+
+	print matrix_9
+	print matrix_10
+
+	matrix_11 = matrix_2 * matrix_1
+	matrix_12 = matrix_2 * 3
+	matrix_13 = 3 * matrix_2
+
+	print matrix_11
+	print matrix_12
+	print matrix_13
+
+	v = matrix_13.vector()
+	print v.next()
+	print v.next()
+		
+
+if __name__ == "__main__":
+        main()
+
