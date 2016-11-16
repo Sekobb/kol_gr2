@@ -1,63 +1,66 @@
+import math
+
 class Matrix(object):
-	def __init__(self, a, b, c, d):
-		self.a = a
-		self.b = b
-		self.c = c
-		self.d = d				
+	def __init__(self, *values):
+		self.m = []
+		for el in values:
+			self.m.append(el)				
 
 	def __str__(self):
-		return str(self.a) + ", " + str(self.b) + ", " + str(self.c) + ", " + str(self.d)
+		res = ""
+		for i in range(len(self.m)-1):
+			res += str(self.m[i]) + ", "
+		res += str(self.m[len(self.m)-1])
+		return res
 
 	def __add__(self, oth):
 		if isinstance(oth, Matrix):
-			new_a = self.a + oth.a
-			new_b = self.b + oth.b
-			new_c = self.c + oth.c
-			new_d = self.d + oth.d
-			return Matrix(new_a, new_b, new_c, new_d)
+			new = Matrix()
+			for i in range(len(self.m)):
+				new.m.append(self.m[i] + oth.m[i])
+			return new
 		elif isinstance(oth, (int, long, float)):
-			new_a = self.a + oth
-			new_b = self.b + oth
-			new_c = self.c + oth
-			new_d = self.d + oth
-			return Matrix(new_a, new_b, new_c, new_d)
+			new = Matrix()
+			for i in range(len(self.m)):
+				new.m.append(self.m[i] + oth)
+			return new
 		else:
-			return Matrix(0, 0, 0, 0)
+			return Matrix()
 
 	def __radd__(self, oth):
 		return self.__add__(oth)
 
 	def __sub__(self, oth):
 		if isinstance(oth, Matrix):
-			new_a = self.a - oth.a
-			new_b = self.b - oth.b
-			new_c = self.c - oth.c
-			new_d = self.d - oth.d
-			return Matrix(new_a, new_b, new_c, new_d)
+			new = Matrix()
+			for i in range(len(self.m)):
+				new.m.append(self.m[i] - oth.m[i])
+			return new
 		elif isinstance(oth, (int, long, float)):
-			new_a = self.a - oth
-			new_b = self.b - oth
-			new_c = self.c - oth
-			new_d = self.d - oth
-			return Matrix(new_a, new_b, new_c, new_d)
+			new = Matrix()
+			for i in range(len(self.m)):
+				new.m.append(self.m[i] - oth)
+			return new
 		else:
-			return Matrix(0, 0, 0, 0)
+			return Matrix()
 
 	def __mul__(self, oth):
 		if isinstance(oth, Matrix):
-			new_a = (self.a*oth.a) + (self.b*oth.c)
-			new_b = (self.a*oth.b) + (self.b*oth.d)
-			new_c = (self.c*oth.a) + (self.d*oth.b)
-			new_d = (self.c*oth.b) + (self.d*oth.d)
-			return Matrix(new_a, new_b, new_c, new_d)
+			new = Matrix()
+			for i in range((int)(math.sqrt(len(self.m)))):
+				for j in range((int)(math.sqrt(len(self.m)))):
+					sum = 0
+					for k in range((int)(math.sqrt(len(self.m)))):
+						sum += self.m[i*(int)(math.sqrt(len(self.m))) + k]*oth.m[k*(int)(math.sqrt(len(self.m))) + j]
+					new.m.append(sum)
+			return new
 		elif isinstance(oth, (int, long, float)):
-			new_a = self.a * oth
-			new_b = self.b * oth
-			new_c = self.c * oth
-			new_d = self.d * oth
-			return Matrix(new_a, new_b, new_c, new_d)
+			new = Matrix()
+			for i in range(len(self.m)):
+				new.m.append(self.m[i] * oth)
+			return new
 		else:
-			return Matrix(0, 0, 0, 0)
+			return Matrix()
 
 	def __rmul__(self, oth):
 		return self.__mul__(oth)
@@ -72,11 +75,14 @@ class Matrix(object):
 		return self.__mul__(oth)
 
 	def vector(self):
-		i = 0
-		v = [self.a, self.b]
-		while i < 2:
-			yield v
-			v = [self.c, self.d]
-			i = i + 1
+		tmp = 0
+		v = []
+		for el in self.m:
+			v.append(el)
+			if tmp%math.sqrt(len(self.m)):
+				yield v
+				v = []
+			tmp += 1
+		
 
 		
